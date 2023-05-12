@@ -1,5 +1,6 @@
 package db.kafka.ecommerce;
 
+import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -13,13 +14,19 @@ public class NewOrderMain2 {
         var producer = new KafkaProducer<String, String>(properties());
         var value = "123,456,789";
         var record = new ProducerRecord<String, String>("ECCOMERCE_NEW_ORDER", value, value);
-        producer.send(record, (data, ex)->{
+        Callback callback = (data, ex) -> {
             if (ex != null) {
                 ex.printStackTrace();
                 return;
             }
             System.out.println("sucesso enviando " + data.topic() + ":::partition " + data.partition() + "/ offset " + data.offset() + "/ timestamp " + data.timestamp());
-        }).get();
+        };
+        var email = "Welcome! Processando  pedido!";
+        var emailRecord = new ProducerRecord<>("ECCOMERCE_SEND_EMAIL", email, email);
+        producer.send(record, callback).get();
+        producer.send(emailRecord, callback).get();
+
+
     }
 
     private static Properties properties(){
