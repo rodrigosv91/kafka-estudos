@@ -5,8 +5,9 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 public class EmailService2 {
     public static void main(String[] args) {
         var emailService = new EmailService2();
-        var service = new kafkaService2(FraudDetectorService.class.getSimpleName(), "ECCOMERCE_SEND_EMAIL", emailService::parse);
-        service.run();
+        try(var service = new kafkaService2(FraudDetectorService.class.getSimpleName(), "ECCOMERCE_SEND_EMAIL", emailService::parse)){
+            service.run();
+        }
     }
 
     private void parse(ConsumerRecord<String, String> record){

@@ -5,8 +5,9 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 public class FraudDetectorService2 {
     public static void main(String[] args) {
         var fraudService = new FraudDetectorService2();
-        var service = new kafkaService2(FraudDetectorService.class.getSimpleName(),"ECCOMERCE_NEW_ORDER", fraudService::parse);
-        service.run();
+        try(var service = new kafkaService2(FraudDetectorService.class.getSimpleName(),"ECCOMERCE_NEW_ORDER", fraudService::parse)){
+            service.run();
+        }
     }
 
     private void parse(ConsumerRecord<String, String> record) {
