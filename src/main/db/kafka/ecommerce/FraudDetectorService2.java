@@ -8,6 +8,7 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
+import java.util.UUID;
 
 public class FraudDetectorService2 {
     public static void main(String[] args) {
@@ -28,7 +29,6 @@ public class FraudDetectorService2 {
                     try {
                         Thread.sleep(5000);
                     } catch (InterruptedException e) {
-                        // ignoring
                         e.printStackTrace();
                     }
                     System.out.println("Order processed");
@@ -43,8 +43,7 @@ public class FraudDetectorService2 {
         properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, FraudDetectorService.class.getSimpleName());
-        //properties.setProperty(ConsumerConfig.);
-        //properties.setProperty(ConsumerConfig.);
+        properties.setProperty(ConsumerConfig.CLIENT_ID_CONFIG, FraudDetectorService.class.getSimpleName() + "::" + UUID.randomUUID());
         //properties.setProperty(ConsumerConfig.);
 
         return properties;
