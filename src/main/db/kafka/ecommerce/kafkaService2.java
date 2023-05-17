@@ -11,6 +11,7 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 class kafkaService2 implements Closeable {
 
@@ -18,10 +19,21 @@ class kafkaService2 implements Closeable {
     private final ConsumerFunction2 parse;
 
     kafkaService2(String groupId, String topico, ConsumerFunction2 parse) {
-        this.parse = parse;
-        this.consumer = new KafkaConsumer<>(properties(groupId));
+        this(groupId, parse);
         consumer.subscribe(Collections.singletonList(topico));
     }
+
+    kafkaService2(String groupId, Pattern topico, ConsumerFunction2 parse) {
+        this(groupId, parse);
+        consumer.subscribe(topico);
+    }
+    private kafkaService2(String groupId, ConsumerFunction2 parse) {
+        this.consumer = new KafkaConsumer<>(properties(groupId));
+        this.parse = parse;
+    }
+
+
+
 
     void run(){
         while (true) {
