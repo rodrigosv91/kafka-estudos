@@ -2,19 +2,19 @@ package db.kafka.ecommerce;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
-import java.time.Duration;
-import java.util.Collections;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
 public class LogService2 {
     public static void main(String[] args) {
-        LogService2 logService = new LogService2();
-        try(var consumer = new kafkaService2(LogService2.class.getSimpleName(),Pattern.compile("ECCOMERCE.*"),logService::parse)){
+        var logService = new LogService2();
+        try(var consumer = new KafkaService2(LogService2.class.getSimpleName(),
+                Pattern.compile("ECCOMERCE.*"),
+                logService::parse,
+                String.class)){
             consumer.run();
         }
     }

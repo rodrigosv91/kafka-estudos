@@ -2,15 +2,17 @@ package db.kafka.ecommerce;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
-public class EmailService2 {
+public class EmailService4 {
     public static void main(String[] args) {
-        var emailService = new EmailService2();
-        try(var service = new kafkaService2(FraudDetectorService.class.getSimpleName(), "ECCOMERCE_SEND_EMAIL", emailService::parse)){
+        var emailService = new EmailService4();
+        try(var service = new KafkaService2<Email>(EmailService4.class.getSimpleName(),
+                "ECCOMERCE_SEND_EMAIL", emailService::parse,
+                Email.class)){
             service.run();
         }
     }
 
-    private void parse(ConsumerRecord<String, String> record){
+    private void parse(ConsumerRecord<String, Email> record){
         System.out.println("------------------------------------------");
         System.out.println("Sending Email");
         System.out.println(record.key());
