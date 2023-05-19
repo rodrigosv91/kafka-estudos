@@ -5,6 +5,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
+import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
@@ -14,7 +15,7 @@ public class LogService2 {
         try(var consumer = new KafkaService2(LogService2.class.getSimpleName(),
                 Pattern.compile("ECCOMERCE.*"),
                 logService::parse,
-                String.class)){
+                String.class, Map.of(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName()))){
             consumer.run();
         }
     }
@@ -28,14 +29,4 @@ public class LogService2 {
         System.out.println(record.offset());
     }
 
-    private static Properties properties(){
-        var properties = new Properties();
-        properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
-        properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, LogService2.class.getSimpleName());
-        //properties.setProperty(ConsumerConfig.);
-
-        return properties;
-    }
 }
