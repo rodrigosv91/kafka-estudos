@@ -23,6 +23,7 @@
     </build>
     <modules>
         <module>service-email</module>
+        <module>service-fraud-detector</module>
     </modules>
 
     <dependencies>
