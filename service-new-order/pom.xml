@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>service-fraud-detector</artifactId>
+    <artifactId>service-new-order</artifactId>
     <dependencies>
         <dependency>
             <groupId>db.kafka</groupId>
