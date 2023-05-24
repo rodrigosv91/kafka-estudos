@@ -24,6 +24,7 @@
     <modules>
         <module>service-email</module>
         <module>service-fraud-detector</module>
+        <module>service-log</module>
     </modules>
 
     <dependencies>
