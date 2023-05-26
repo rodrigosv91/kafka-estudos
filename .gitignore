@@ -2,3 +2,4 @@
 /ecommerce.iml
 /target/
 **/target/
+/docker/data/
